@@ -1,3 +1,4 @@
+# Build pipeline
 sudo: required
 services:
   - docker
@@ -22,3 +23,15 @@ after_success:
   - docker push vjthedj1990/multi-server
   - docker push vjthedj1990/multi-worker
 
+deploy:
+  provider: elasticbeanstalk
+  region: eu-central-1
+  app: multi-docker
+  env: MultiDocker-env
+  bucket_name: elasticbeanstalk-eu-central-1-623745641061
+  bucket_path: docker-multi
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
